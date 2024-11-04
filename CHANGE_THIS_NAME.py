@@ -22,14 +22,14 @@ def transpose_major(matrix, in_place = False):
                         We only need to loop over a corner of the matrix, however, not the whole thing.
 
     """
+    size = len(matrix)
     t_matrix = []
 
-    size = len(matrix)
-    for i in range(size):
-        for j in range(i + 1, size):
-            matrix[i][j], matrix[j][i] = matrix[j][i], matrix[i][j]
-
     if in_place:
+        for i in range(size - 1):
+            for j in range(i + 1, size):
+                matrix[i][j], matrix[j][i] = matrix[j][i], matrix[i][j]
+
         t_matrix = matrix
     else:
         t_matrix = [[matrix[j][i] for j in range(size)] for i in range(size)]
@@ -48,16 +48,15 @@ def transpose_minor(matrix, in_place=False):
 
     """
     size = len(matrix)
-    
-    if in_place:
-        for j in range(size):
-            for i in range(j + 1, size):
-                matrix[i][j], matrix[j][i] = matrix[j][i], matrix[i][j]
 
+    if in_place:
+        for i in range(size):
+            for j in range(size - i - 1):
+                matrix[i][j], matrix[size - j - 1][size - i - 1] = matrix[size - j - 1][size - i - 1], matrix[i][j]\
+                
         return matrix
-    
     else:
-        t_matrix = [[matrix[j][i] for j in range(size)] for i in range(size)]
+        t_matrix = [[matrix[size - j - 1][size - i - 1] for j in range(size)] for i in range(size)]
 
         return t_matrix
 
